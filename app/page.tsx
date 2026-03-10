@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from 'react';
+import { Analytics } from "@vercel/analytics/react";
 
 export default function SafeWalk() {
   const [minutes, setMinutes] = useState<string>("15");
@@ -79,6 +80,7 @@ export default function SafeWalk() {
 
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 font-sans" dir="rtl">
+      <Analytics />
       <div className="w-full max-w-sm bg-white p-6 rounded-[35px] shadow-xl text-center border-t-4 border-blue-600 transition-all">
         
         <h1 className="text-3xl font-black text-blue-600 mb-1 flex items-center justify-center gap-2">
