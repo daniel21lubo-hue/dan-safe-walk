@@ -20,7 +20,7 @@ export default function DevDemo() {
           <div className="space-y-6">
             <h2 className="text-6xl font-black text-red-600 animate-pulse">צבע אדום!</h2>
             <p className="text-2xl text-gray-600 font-bold">Симуляция запущена успешно</p>
-            <a href="https://waze.com/ul?q=מקלט&navigate=yes" className="block w-full py-8 bg-[#33ccff] text-white text-4xl font-black rounded-2xl shadow-lg">Waze</a>
+            <a href="waze://search?q=מקלט" className="block w-full py-8 bg-[#33ccff] text-white text-4xl font-black rounded-2xl shadow-lg">Waze</a>
             <button onClick={() => setActive(false)} className="mt-6 text-gray-400 font-bold text-xl hover:text-black transition-colors">СБРОСИТЬ ТЕСТ</button>
           </div>
         )}

@@ -71,11 +71,9 @@ export default function SafeWalk() {
 
           {showNav && (
             <div className="mt-3 grid grid-cols-2 gap-2 animate-in slide-in-from-top-2 duration-300">
-              {/* Waze: Ищет "מקלט", определяет твой GPS и сразу предлагает ехать */}
+              {/* Waze: Ищет ближайшие убежища на натив приложении */}
               <a 
-                href="https://waze.com/ul?q=מקלט&navigate=yes" 
-                target="_blank" 
-                rel="noopener noreferrer"
+                href="waze://search?q=מקלט" 
                 className="py-3 bg-[#33ccff] text-white text-sm font-extrabold rounded-xl shadow-sm text-center active:bg-[#2bb5e3]"
               >
                 Waze
