@@ -1,65 +1,99 @@
-import Image from "next/image";
+"use client";
+import { useState } from 'react';
 
-export default function Home() {
+export default function SafeWalk() {
+  const [minutes, setMinutes] = useState<string>("");
+  const [risk, setRisk] = useState<number | null>(null);
+  const [showNav, setShowNav] = useState(false);
+
+  const calculateRisk = (e: React.FormEvent) => {
+    e.preventDefault();
+    const m = parseInt(minutes);
+    if (!m || m <= 0) return;
+
+    let r = 0;
+    if (m <= 15) r = m * 2;
+    else if (m <= 40) r = m * 2.2;
+    else r = Math.min(m * 2.5, 100);
+    
+    setRisk(Math.floor(r));
+  };
+
+  const getRiskColor = () => {
+    if (risk === null) return '';
+    if (risk < 40) return 'text-green-500';
+    if (risk < 70) return 'text-yellow-500';
+    return 'text-red-500';
+  };
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
+    <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 font-sans" dir="rtl">
+      
+      {/* Контейнер с ограничением ширины для аккуратного вида */}
+      <div className="w-full max-w-sm bg-white p-6 rounded-[35px] shadow-xl text-center border-t-4 border-blue-600 transition-all">
+        
+        <h1 className="text-3xl font-black text-blue-600 mb-1 flex items-center justify-center gap-2">
+          🐾 Safe Walk
+        </h1>
+        <p className="text-gray-500 text-sm mb-6 font-medium">כמה דקות תרצו לטייל עם הכלב?</p>
+
+        <form onSubmit={calculateRisk} className="space-y-3">
+          <input 
+            type="number" 
+            value={minutes}
+            onChange={(e) => setMinutes(e.target.value)}
+            placeholder="הכנס דקות..."
+            className="w-full p-3 text-2xl border-2 border-gray-100 rounded-2xl text-center focus:border-blue-400 outline-none text-black font-bold placeholder:text-gray-300"
+          />
+          <button type="submit" className="w-full py-3 bg-blue-600 text-white text-xl font-bold rounded-2xl shadow-md active:scale-95 transition-all">
+            חשב רמת סיכון
+          </button>
+        </form>
+
+        {risk !== null && (
+          <div className="mt-6 animate-in fade-in zoom-in duration-300">
+            <div className={`text-7xl font-black leading-none ${getRiskColor()}`}>
+              {risk}%
+            </div>
+            <p className={`text-lg font-bold mt-2 ${getRiskColor()}`}>
+              {risk < 40 ? "טיול בטוח יחסית" : risk < 70 ? "הישאר קרוב למבנה מוגן" : "סיכון גבוה! היזהר"}
+            </p>
+          </div>
+        )}
+
+        <div className="mt-6 pt-5 border-t border-dashed border-gray-200">
+          <button 
+            onClick={() => setShowNav(!showNav)}
+            className="w-full py-3 bg-zinc-900 text-white text-lg font-bold rounded-2xl flex items-center justify-center gap-2 active:scale-95 transition-transform"
           >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
+            📍 מצא מקלט קרוב עכשיו
+          </button>
+
+          {showNav && (
+            <div className="mt-3 grid grid-cols-2 gap-2 animate-in slide-in-from-top-2 duration-300">
+              {/* Waze: Ищет "מקלט", определяет твой GPS и сразу предлагает ехать */}
+              <a 
+                href="https://waze.com/ul?q=מקלט&navigate=yes" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="py-3 bg-[#33ccff] text-white text-sm font-extrabold rounded-xl shadow-sm text-center active:bg-[#2bb5e3]"
+              >
+                Waze
+              </a>
+
+              {/* Google Maps: Ищет ближайшее убежище вокруг тебя через встроенный поиск */}
+              <a 
+                href="https://www.google.com/maps/search/?api=1&query=מקלט" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="py-3 bg-[#34a853] text-white text-sm font-extrabold rounded-xl shadow-sm text-center active:bg-[#2d9147]"
+              >
+                Google Maps
+              </a>
+            </div>
+          )}
         </div>
-      </main>
+      </div>
     </div>
   );
 }
