@@ -26,6 +26,31 @@ export default function SafeWalk() {
     return 'text-red-500';
   };
 
+  const handleWazeClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    
+    // Проверяем iOS или Android
+    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    
+    if (isIOS) {
+      // iOS: используем URL schemes для Waze
+      window.location.href = "waze://?q=מקלט";
+    } else {
+      // Android: пытаемся открыть через intent, потом через обычную ссылку
+      const wazeUrl = "https://waze.com/ul?q=מקלט&navigate=yes";
+      
+      // Пытаемся открыть нативное приложение
+      const appLink = document.createElement('a');
+      appLink.href = "waze://search?q=מקלט";
+      appLink.click();
+      
+      // Если приложение не открылось за 1 секунду, открываем веб-версию
+      setTimeout(() => {
+        window.location.href = wazeUrl;
+      }, 1000);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-slate-100 flex items-center justify-center p-4 font-sans" dir="rtl">
       
@@ -71,13 +96,13 @@ export default function SafeWalk() {
 
           {showNav && (
             <div className="mt-3 grid grid-cols-2 gap-2 animate-in slide-in-from-top-2 duration-300">
-              {/* Waze: Ищет ближайшие убежища на натив приложении */}
-              <a 
-                href="waze://search?q=מקלט" 
+              {/* Waze: Открывает нативное приложение или переходит на веб версию */}
+              <button 
+                onClick={handleWazeClick}
                 className="py-3 bg-[#33ccff] text-white text-sm font-extrabold rounded-xl shadow-sm text-center active:bg-[#2bb5e3]"
               >
                 Waze
-              </a>
+              </button>
 
               {/* Google Maps: Ищет ближайшее убежище вокруг тебя через встроенный поиск */}
               <a 
