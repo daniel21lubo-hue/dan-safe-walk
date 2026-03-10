@@ -1,0 +1,27 @@
+{
+  "name": "Safe Walk - דירוג סיכון הליכה עם כלב",
+  "short_name": "Safe Walk",
+  "description": "חשב את רמת הסיכון של הליכה עם הכלב שלך ומצא מקלט בחירום קרוב",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2563eb",
+  "orientation": "portrait-primary",
+  "categories": ["utilities", "productivity"],
+  "screenshots": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ],
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "any",
+      "type": "image/x-icon"
+    }
+  ]
+}

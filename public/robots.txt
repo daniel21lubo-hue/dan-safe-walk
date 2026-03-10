@@ -1,0 +1,18 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+Disallow: /.next/
+
+# Sitemaps
+Sitemap: https://dan-safe-walk.vercel.app/sitemap.xml
+Sitemap: https://dan-safe-walk.vercel.app/api/sitemap
+
+# Social media crawlers
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
