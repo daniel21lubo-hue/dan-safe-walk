@@ -29,26 +29,25 @@ export default function SafeWalk() {
   const handleWazeClick = (e: React.MouseEvent) => {
     e.preventDefault();
     
-    // Проверяем iOS или Android
-    const isIOS = /iPad|iPhone|iPod/.test(navigator.userAgent);
+    // Кодируем "מקלט", чтобы ссылка была понятна навигатору
+    const query = encodeURIComponent("מקלט");
     
-    if (isIOS) {
-      // iOS: используем URL schemes для Waze
-      window.location.href = "waze://?q=מקלט";
-    } else {
-      // Android: пытаемся открыть через intent, потом через обычную ссылку
-      const wazeUrl = "https://waze.com/ul?q=מקלט&navigate=yes";
-      
-      // Пытаемся открыть нативное приложение
-      const appLink = document.createElement('a');
-      appLink.href = "waze://search?q=מקלט";
-      appLink.click();
-      
-      // Если приложение не открылось за 1 секунду, открываем веб-версию
-      setTimeout(() => {
-        window.location.href = wazeUrl;
-      }, 1000);
-    }
+    // Прямая ссылка на приложение (Deep Link)
+    const wazeDeepLink = `waze://?q=${query}&navigate=yes`;
+    
+    // Ссылка для браузера (Fallback)
+    const wazeWebUrl = `https://www.waze.com/ul?q=${query}&navigate=yes`;
+
+    // 1. Пытаемся открыть приложение напрямую
+    window.location.href = wazeDeepLink;
+
+    // 2. Если приложение не перехватило управление за 500мс, открываем браузерную версию
+    // На Android это часто вызывает диалог "Открыть в приложении?"
+    setTimeout(() => {
+      if (document.hasFocus()) {
+        window.location.href = wazeWebUrl;
+      }
+    }, 500);
   };
 
   return (
