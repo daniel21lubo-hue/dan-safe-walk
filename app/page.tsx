@@ -34,7 +34,7 @@ export default function SafeWalk() {
 
     try {
       // 2. Проверка реальных сирен в выбранном городе
-      const response = await fetch('https://www.oref.org.il/WarningMessages/History/AlertsHistory.json');
+      const response = await fetch('/api/alerts');
       const alerts = await response.json();
       const now = new Date();
       
