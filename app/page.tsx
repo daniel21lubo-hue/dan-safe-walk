@@ -259,13 +259,13 @@ export default function SafeWalk() {
     return "";
   };
 
-  const getLiveStatusText = () => {
-    if (loadingLive) return "טוען מצב התרעות...";
-    if (!liveAlert) return "✅ אין התרעה פעילה כרגע באזור שלך";
-    if (liveAlert.cat === "1") return "🚨 יש התרעה פעילה כעת באזור שלך";
-    if (liveAlert.cat === "10") return "⚠️ צפויות להתקבל התרעות באזור שלך בדקות הקרובות";
-    return "⚠️ התקבל עדכון התרעה באזור שלך";
-  };
+  // const getLiveStatusText = () => {
+  //   if (loadingLive) return "טוען מצב התרעות...";
+  //   if (!liveAlert) return "✅ אין התרעה פעילה כרגע באזור שלך";
+  //   if (liveAlert.cat === "1") return "🚨 יש התרעה פעילה כעת באזור שלך";
+  //   if (liveAlert.cat === "10") return "⚠️ צפויות להתקבל התרעות באזור שלך בדקות הקרובות";
+  //   return "⚠️ התקבל עדכון התרעה באזור שלך";
+  // };
 
   const getLiveStatusClass = () => {
     if (loadingLive) {
@@ -309,7 +309,7 @@ export default function SafeWalk() {
 
         <p className="text-blue-400 text-xs font-bold mb-2">📍 {city}</p>
 
-        <div className={getLiveStatusClass()}>{getLiveStatusText()}</div>
+        {/* <div className={getLiveStatusClass()}>{getLiveStatusText()}</div> */}
 
         <p className="text-gray-500 text-sm mb-6 font-medium">
           כמה דקות תרצו לטייל עם הכלב?
